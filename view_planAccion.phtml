@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Planes de acción</title>
+        <style type="text/css">
+            .container{
+                margin:40px;
+                align-items: center;
+                margin-top: 50px;
+            }
+            table, tr, td {
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <table >
+                <tr>
+                   <td>Id accion</td>
+                   <td>actividad</td> 
+                   <td>Fecha ejecución</td>
+                    <td>Fecha Notificación</td>
+                   <td>Cargo que verifica</td>
+                   <td>Estado</td>
+                   <td>Fecha Notificación seguimiento</td>
+                </tr>
+            <?php
+            $html='';
+            if($datos!=false){
+                foreach ($datos as $dato) {
+                    $html.='<tr>';
+                    $html.='<td>'.$dato->idAccion.'</td>';
+                    $html.='<td>'.utf8_decode($dato->actividad).'</td>';
+                    $html.='<td>'.$dato->fechaEjecucion.'</td>';
+                    $fecha = $dato->fechaEjecucion;
+                    $fecha_notificacion= strtotime ( '-1 day' , strtotime ( $fecha ) ) ;
+                    $fecha_notificacion = date ( 'Y-m-j' , $fecha_notificacion);
+                    $html.='<td>'.$fecha_notificacion.'</td>';
+                    $html.='<td>'.utf8_decode($dato->cargo).'</td>';
+                    $html.='<td>'.utf8_decode($dato->estado).'</td>';
+                    $fecha = $dato->fechaEjecucion;
+                    $fecha_notificacion= strtotime ( '+15 day' , strtotime ( $fecha ) ) ;
+                    $fecha_notificacion = date ( 'Y-m-j' , $fecha_notificacion);
+                    $html.='<td>'.$fecha_notificacion.'</td>';
+                    $html.='</tr>';
+                }
+            }else{
+                $html.='
+                <tr>
+                    <td colspan="5"><center>No hay planes de acción</center></td>
+                </tr>     
+                '  ;
+            } 
+            echo $html;
+            ?>
+            </table>
+        </div>
+    </body>
+</html>
